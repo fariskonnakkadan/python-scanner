@@ -2,10 +2,53 @@
 <html>
 <head>
     <title>Scan Results</title>
+    <style>
+        body {
+            background-color: #F5F5F5;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #333333;
+            font-size: 32px;
+            margin: 20px 0 40px 0;
+            text-align: center;
+        }
+        p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        ul {
+            background-color: #FFFFFF;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            list-style: none;
+            margin: 0 auto;
+            max-width: 500px;
+            padding: 20px;
+            text-align: left;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        a {
+            color: #4CAF50;
+            display: block;
+            font-size: 18px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        a:hover {
+            color: #3E8E41;
+        }
+    </style>
 </head>
 <body>
     <h1>Scan Results</h1>
-    <p>Scan results for IP address {{ results }}:</p>
+    <p>Scan results for IP address: {{ ip_add }} </p>
     <ul>
         {% for result in results %}
             <li>{{ result }}</li>

@@ -14,12 +14,10 @@ def index():
         scan_results = scan_ports(ip_address)
 
         # Render the results template with the scan results
-        return render_template('results.html', results=scan_results)
+        return render_template('results.html', results=scan_results, ip_add=ip_address)
 
     # Render the form template if no IP address was provided.
     return render_template('form.html')
-
-
 
 
 def scan_ports(ip):

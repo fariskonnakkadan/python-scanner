@@ -16,8 +16,11 @@ def index():
         # Render the results template with the scan results
         return render_template('results.html', results=scan_results)
 
-    # Render the form template if no IP address was provided
+    # Render the form template if no IP address was provided.
     return render_template('form.html')
+
+
+
 
 def scan_ports(ip):
     nm = nmap.PortScanner()

@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template
 import nmap
 from threading import Thread
+import subprocess
 
 app = Flask(__name__)
 
@@ -41,10 +42,19 @@ def scan(ip_addresses, selected_tools):
     return scan_results
 
 
-
 def scan_nikto(ip_addresses):
-    # TODO: Implement nikto scanning function
-    pass
+    nikto_results = {}
+    for ip in ip_addresses:
+        cmd = ['nikto', '-h', ip]
+        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout, stderr = process.communicate()
+        if stderr:
+            nikto_results[ip] = 'Error: ' + stderr.decode().strip()
+        else:
+            nikto_results[ip] = stdout.decode().strip()
+    print(nikto_results)
+    return nikto_results
+
 
 def scan_zap(ip_addresses):
     # TODO: Implement zap scanning function

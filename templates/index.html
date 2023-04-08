@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IP Scanner</title>
+    <style>
+        body {
+            background-color: #F5F5F5;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #333333;
+            font-size: 32px;
+            margin: 20px 0 40px 0;
+            text-align: center;
+        }
+        form {
+            background-color: transparent;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+            max-width: 500px;
+            padding: 20px;
+            text-align: center;
+        }
+        label {
+            display: block;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        textarea {
+            border-radius: 5px;
+            border: 2px solid #CCCCCC;
+            font-size: 16px;
+            padding: 10px;
+            width: 90%;
+            height: 150px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 10px 20px;
+            margin-top: 20px;
+        }
+        input[type="submit"]:hover {
+            background-color: #3E8E41;
+        }
+        table {
+            background-color: transparent;
+            border-collapse: collapse;
+            margin: 0 auto;
+            max-width: 500px;
+            text-align: center;
+        }
+        td {
+            padding: 10px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <h1>Multi Scanner</h1>
+    <form method="post">
+        <label for="ip_addresses">IP/URL:</label>
+        <textarea name="ip_addresses" id="ip_addresses"></textarea>
+        <br><br>
+        <table>
+            <tr>
+                <td><input type="checkbox" name="nmap" id="nmap" value="nmap"></td>
+                <td><label for="nmap">Nmap</label></td>
+                <td><input type="checkbox" name="nikto" id="nikto" value="nikto"></td>
+                <td><label for="nikto">Nikto</label></td>
+                <td><input type="checkbox" name="zap" id="zap" value="zap"></td>
+                <td><label for="zap">Zap</label></td>
+                <td><input type="checkbox" name="nuclei" id="nuclei" value="nuclei"></td>
+                <td><label for="nuclei">Nuclei</label></td>
+            </tr>
+        </table>
+        <br><br>
+        <input type="submit" value="Scan">
+    </form>
+</body>
+</html>

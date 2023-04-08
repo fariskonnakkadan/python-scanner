@@ -16,23 +16,30 @@
             margin: 20px 0 40px 0;
             text-align: center;
         }
-        p {
-            font-size: 18px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        ul {
+        table {
             background-color: #FFFFFF;
+            border-collapse: collapse;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            list-style: none;
             margin: 0 auto;
-            max-width: 500px;
-            padding: 20px;
-            text-align: left;
+            max-width: 800px;
+            width: 100%;
         }
-        li {
-            margin-bottom: 10px;
+        th {
+            background-color: #333333;
+            color: #FFFFFF;
+            font-weight: bold;
+            padding: 10px;
+            text-align: left;
+            vertical-align: middle;
+        }
+        td {
+            padding: 10px;
+            text-align: left;
+            vertical-align: middle;
+        }
+        tr:nth-child(even) {
+            background-color: #F2F2F2;
         }
         a {
             color: #4CAF50;
@@ -48,12 +55,22 @@
 </head>
 <body>
     <h1>Scan Results</h1>
-    <p>Scan results for IP address: {{ ip_add }} </p>
-    <ul>
-        {% for result in results %}
-            <li>{{ result }}</li>
-        {% endfor %}
-    </ul>
+    <table>
+        <thead>
+            <tr>
+                <th>IP</th>
+                <th>Ports Open</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+                <tr>
+                    <td>{{ result.ip_address }}</td>
+                    <td>{{ result.open_ports }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     <a href="/">Back to form</a>
 </body>
 </html>

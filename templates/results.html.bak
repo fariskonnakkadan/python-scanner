@@ -17,13 +17,13 @@
             text-align: center;
         }
         table {
-          background-color: #FFFFFF;
-          border-collapse: collapse;
-          border-radius: 5px;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-          margin: 0 auto;
-          max-width: calc(100% - 20px);
-          width: 100%;
+            background-color: #FFFFFF;
+            border-collapse: collapse;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+            max-width: 800px;
+            width: 100%;
         }
         th {
             background-color: #333333;
@@ -37,7 +37,6 @@
             padding: 10px;
             text-align: left;
             vertical-align: middle;
-            white-space: pre-line;
         }
         tr:nth-child(even) {
             background-color: #F2F2F2;
@@ -56,7 +55,6 @@
 </head>
 <body>
     <h1>Scan Results</h1>
-    {% if results['nmap'] %}
     <h2>Nmap Results</h2>
     <table>
         <thead>
@@ -74,9 +72,6 @@
             {% endfor %}
         </tbody>
     </table>
-    {% endif %}
-
-    {% if results['nikto'] %}
     <h2>Nikto Results</h2>
     <table>
         <thead>
@@ -94,30 +89,7 @@
             {% endfor %}
         </tbody>
     </table>
-    {% endif %}
-
-    {% if results['nuclei'] %}
-    <h2>Nuclei Results</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>IP</th>
-                <th>Scan Result</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for ip_address, scan_result in results['nuclei'].items() %}
-                <tr>
-                    <td>{{ ip_address }}</td>
-                    <td>{{ scan_result }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% endif %}
-
-    {% if results['zap'] %}
-    <h2>ZAP Results</h2>
+    <!-- <h2>ZAP Results</h2>
     <table>
         <thead>
             <tr>
@@ -134,8 +106,23 @@
             {% endfor %}
         </tbody>
     </table>
-    {% endif %}
-
+    <h2>Nuclei Results</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>IP</th>
+                <th>Scan Result</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ip_address, scan_result in results['nuclei'].items() %}
+                <tr>
+                    <td>{{ ip_address }}</td>
+                    <td>{{ scan_result }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table> -->
     <a href="/">Back to form</a>
 </body>
 </html>

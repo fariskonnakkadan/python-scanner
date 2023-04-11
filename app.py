@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template
 import nmap
 from threading import Thread
-import subprocess
+import subprocess, re, socket
 
 app = Flask(__name__)
 
@@ -9,7 +9,8 @@ app = Flask(__name__)
 def index():
     if request.method == 'POST':
         # Get the list of IP addresses from the form input
-        ip_addresses = request.form['ip_addresses'].split(',')
+        ip_addresses = re.split(',|\n|\s', request.form['ip_addresses'])
+        
         # Get the selected tool(s)
         selected_tools = []
         if 'nmap' in request.form:
@@ -22,6 +23,8 @@ def index():
             selected_tools.append('nuclei')
         # Call scan_all_ports function with selected tool(s)
         scan_results = scan(ip_addresses, selected_tools)
+
+        print(scan_results)
         # Render the results template with the scan results
         return render_template('results.html', results=scan_results)
     # Render the form template if no IP addresses were provided.
@@ -45,36 +48,68 @@ def scan(ip_addresses, selected_tools):
 def scan_nikto(ip_addresses):
     nikto_results = {}
     for ip in ip_addresses:
-        cmd = ['nikto', '-h', ip]
-        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        stdout, stderr = process.communicate()
-        if stderr:
-            nikto_results[ip] = 'Error: ' + stderr.decode().strip()
-        else:
-            nikto_results[ip] = stdout.decode().strip()
+        try:
+            process = subprocess.Popen(['nikto', '-h', ip], stdout=subprocess.PIPE)
+            stdout, _ = process.communicate()
+            stdout = stdout.decode().strip()
+            # Insert newline before each '+' sign
+            nikto_results[ip] = stdout
+        except subprocess.CalledProcessError:
+            print(f"Error running nikto scan on IP address: {ip}")
     print(nikto_results)
     return nikto_results
+
+
+def scan_nmap(ip_addresses):
+    nmap_results = {}
+    nm = nmap.PortScanner()
+    for ip in ip_addresses:
+        # Remove port number from input
+        ip = re.sub(':[0-9]+', '', ip)
+        if re.match(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', ip):
+            # Input is IP address
+            nm.scan(ip, arguments='-p0-65535 -T4 -sS')
+            nmap_results[ip] = []
+            for port in nm[ip]['tcp']:
+                if nm[ip]['tcp'][port]['state'] == 'open':
+                    nmap_results[ip].append(port)
+        else:
+            # Input is domain name
+            try:
+                ip_address = socket.gethostbyname(ip)
+                nm.scan(ip_address, arguments='-p0-65535 -T4 -sS')
+                nmap_results[ip_address] = []
+                for port in nm[ip_address]['tcp']:
+                    if nm[ip_address]['tcp'][port]['state'] == 'open':
+                        nmap_results[ip_address].append(port)
+            except socket.gaierror:
+                print(f"Could not resolve hostname: {ip}")
+    print(nmap_results)
+    return nmap_results
+
+
 
 
 def scan_zap(ip_addresses):
     # TODO: Implement zap scanning function
     pass
 
-def scan_nuclei(ip_addresses):
-    # TODO: Implement nuclei scanning function
-    pass
 
-def scan_nmap(ip_addresses):
-    nmap_results = {}
-    nm = nmap.PortScanner()
+def scan_nuclei(ip_addresses):
+    nuclei_results = {}
     for ip in ip_addresses:
-        nm.scan(ip, arguments='-p0-65535 -T4 -sS')
-        nmap_results[ip] = []
-        for port in nm[ip]['tcp']:
-            if nm[ip]['tcp'][port]['state'] == 'open':
-                nmap_results[ip].append(port)
-    print(nmap_results)
-    return nmap_results
+        command = f"nuclei -target {ip} -s low,medium,high,critical"
+        # Execute the command and capture the output
+        try:
+            output = subprocess.check_output(command, shell=True)
+            nuclei_results[ip] = output.decode().strip()
+        except subprocess.CalledProcessError as e:
+            print(f"Error running Nuclei command for {ip}: {e}")
+
+    return nuclei_results
+
+
+
 
 
 

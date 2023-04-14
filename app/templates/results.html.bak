@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scan Results</title>
+    <style>
+        body {
+            background-color: #F5F5F5;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #333333;
+            font-size: 32px;
+            margin: 20px 0 40px 0;
+            text-align: center;
+        }
+        table {
+            background-color: #FFFFFF;
+            border-collapse: collapse;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+            max-width: 800px;
+            width: 100%;
+        }
+        th {
+            background-color: #333333;
+            color: #FFFFFF;
+            font-weight: bold;
+            padding: 10px;
+            text-align: left;
+            vertical-align: middle;
+        }
+        td {
+            padding: 10px;
+            text-align: left;
+            vertical-align: middle;
+        }
+        tr:nth-child(even) {
+            background-color: #F2F2F2;
+        }
+        a {
+            color: #4CAF50;
+            display: block;
+            font-size: 18px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        a:hover {
+            color: #3E8E41;
+        }
+    </style>
+</head>
+<body>
+    <h1>Scan Results</h1>
+    <h2>Nmap Results</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>IP</th>
+                <th>Open Ports</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ip_address, open_ports in results['nmap'].items() %}
+                <tr>
+                    <td>{{ ip_address }}</td>
+                    <td>{{ open_ports }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h2>Nikto Results</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>IP</th>
+                <th>Scan Result</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ip_address, scan_result in results['nikto'].items() %}
+                <tr>
+                    <td>{{ ip_address }}</td>
+                    <td>{{ scan_result }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- <h2>ZAP Results</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>IP</th>
+                <th>Alerts</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ip_address, alerts in results['zap'].items() %}
+                <tr>
+                    <td>{{ ip_address }}</td>
+                    <td>{{ alerts }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h2>Nuclei Results</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>IP</th>
+                <th>Scan Result</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ip_address, scan_result in results['nuclei'].items() %}
+                <tr>
+                    <td>{{ ip_address }}</td>
+                    <td>{{ scan_result }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table> -->
+    <a href="/">Back to form</a>
+</body>
+</html>
